@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"net/http"
+	"os"
 )
 
 func main() {
@@ -10,7 +11,19 @@ func main() {
 }
 
 func listenAndServe(handlerFunc http.HandlerFunc) {
-	log.Println("Starting 80")
+
+	port := os.Getenv("PORT")
+	if "" == port {
+		port = "80"
+	}
+	if "" == os.Getenv("DB_NAME") {
+		os.Setenv("DB_NAME", "DB")
+	}
+
+	log.Println("DBName" + os.Getenv("DB_NAME"))
+	log.Println("Starting at:" + port)
 	http.HandleFunc("/", logger(handlerFunc))
-	http.ListenAndServe(":80", nil)
+	log.Fatal(http.ListenAndServe(":"+port, nil))
+
+	log.Println("exiting")
 }

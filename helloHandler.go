@@ -16,15 +16,26 @@ type Hello struct {
 	Name string        `bson:"string"`
 }
 
+func getDBHost() string {
+	return "mongodb://mongo"
+}
+
+func getDBName() string {
+	if "" == os.Getenv("DB_NAME") {
+		return "db"
+	}
+
+	return os.Getenv("DB_NAME")
+}
+
 func helloHandler(w http.ResponseWriter, r *http.Request) {
 
 	if r.URL.Path == "" || r.URL.Path == "/" {
 		http.Error(w, "Must Contain a Name", http.StatusBadRequest)
 		return
 	}
-
-	session, _ := mgo.Dial(os.Getenv("DATABASE_PORT_27017_TCP_ADDR"))
-	db := session.DB(os.Getenv("DB_NAME"))
+	session, _ := mgo.Dial(getDBHost())
+	db := session.DB(getDBName())
 	defer session.Close()
 
 	// insert new record

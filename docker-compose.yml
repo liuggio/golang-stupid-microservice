@@ -1,0 +1,11 @@
+web:
+  build: .
+  ports:
+   - "8080:80"
+  links:
+   - mongo
+  environment:
+    - DB_NAME=advanced-golang-db
+    - PORT=80
+mongo:
+  image: mongo
