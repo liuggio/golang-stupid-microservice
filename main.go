@@ -19,9 +19,13 @@ func listenAndServe(handlerFunc http.HandlerFunc) {
 	if "" == os.Getenv("DB_NAME") {
 		os.Setenv("DB_NAME", "DB")
 	}
+	if "" == os.Getenv("mongo_PORT") {
+		os.Setenv("mongo_PORT", "mongodb://mongo:27017")
+	}
 
-	log.Println("DBName" + os.Getenv("DB_NAME"))
-	log.Println("Starting at:" + port)
+	log.Println("DBName:     \t" + os.Getenv("DB_NAME"))
+	log.Println("Mongo at:   \t" + os.Getenv("mongo_PORT"))
+	log.Println("Starting at:\t" + port)
 	http.HandleFunc("/", logger(handlerFunc))
 	log.Fatal(http.ListenAndServe(":"+port, nil))
 

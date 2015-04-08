@@ -17,7 +17,7 @@ type Hello struct {
 }
 
 func getDBHost() string {
-	return "mongodb://mongo"
+	return os.Getenv("mongo_PORT")
 }
 
 func getDBName() string {

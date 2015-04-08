@@ -15,3 +15,12 @@ How to use it
 godep restore
 docker build -t godep restore .
 ```
+
+
+
+```
+docker-compose build web
+docker-composer up -d
+docker-compose logs
+
+```
